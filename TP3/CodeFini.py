@@ -13,7 +13,9 @@ Nous avons commence la gestion de vaisseau bonus mais n'avons pas eu le temps de
 
 """
 
-from Tkinter import *
+# Lien GITHub : https://github.com/AdriLyon/TP_Space_Invaders
+
+from tkinter import *
 from random import *
 from tkinter.messagebox import showinfo, askokcancel
 
@@ -23,7 +25,7 @@ def deplacerAliens(canevas,listeAliens,photoGameOver, dx=20,dy=40, vitesse=1000)
     # Cette fonction gere le deplacement des ennemis, ol faut que les trois lignes d'alien se deplace de gauche a droite, et qu'a chaque allerou retour
     # ils descendent d'un cran jusqu'a arriver au niveau des blocs de defense du vaisseau
 
-    xPremier = 10000 #xPremier et xDernier representent les positions alien aux extremite
+    xPremier = 10000 #xPremier et xDernier representent les positions alien aux extremites
     xDernier = 0
     listeAliens = [ligne for ligne in listeAliens if ligne]
     _, yMin = canevas.coords(listeAliens[-1][0])
@@ -110,13 +112,16 @@ def tirer(dy,v, missile = None):
         
 
 def tirEnnemi(dy,v,bombe = None):
+    # Cette fonction gere les tirs des ennemis, notamment le fait que les tirs des aliens soient aleatoire parmi tout les aliens present
+    #  on utilise notre liste d'alien cree plus tot 
+
     global listeAliens,PosXvaisseau,PosYvaisseau, dKill, vie
     if randint(0, 3) == 0:
-        print "tir"
+        print ("tir")
         alien_aleatoire = choice(listeAliens[-1]) # on choisit au hasard l'alien qui va tirer parmi la liste alien cree plus tot
         PosXalien,PosYalien = canevas.coords(alien_aleatoire)
         boule = canevas.create_oval(PosXalien - 5,PosYalien + 55, PosXalien + 5, PosYalien + 65, fill = "red2")
-        deplacerBombe(boule, dy)
+        deplacerBombe(boule, dy) # on utilise la fonction deplacerBombe a chaque tir pour mettre en mouvement la bombe
     canevas.after(100, lambda: tirEnnemi(-5, 25))   
 
 
@@ -225,8 +230,8 @@ Fond=canevas.create_image(Largeur/2, Hauteur/2, image = photoFond)
 #Creation ennemies 
 photoAlien=PhotoImage(file="_Alien1.gif")
 listeAliens = [] #on cree une liste pour avoir plusieurs aliens
-for ligne in xrange(30,150, 40): #on decide faire trois lignes d'aliens
-    ligneAliens = [canevas.create_image(colonne, ligne, image=photoAlien) for colonne in xrange(80, Largeur-80, 60)]
+for ligne in range(30,150, 40): #on decide faire trois lignes d'aliens
+    ligneAliens = [canevas.create_image(colonne, ligne, image=photoAlien) for colonne in range(80, Largeur-80, 60)]
     listeAliens.append(ligneAliens)
 
 #Creation Liste coordonnees Aliens
